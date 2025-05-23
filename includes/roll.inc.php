@@ -37,6 +37,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         }
 
+        changeRole($pdo, $username, $role);
+
         $pdo = null;
         $stmt = null;
 

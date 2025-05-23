@@ -1,14 +1,11 @@
 <title>Pokedex - HomePage</title>
 
 <?php
-    require_once 'includes\roll_view.inc.php';
+    require_once 'includes/roll_view.inc.php';
     require_once 'includes/config_session.inc.php';
     include('header.php');
 
-if(!isset($_SESSION["user_id"]))
-{
-    header("Location: login.php");
-}
+
 ?>
 
 <?php
