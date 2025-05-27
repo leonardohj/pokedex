@@ -33,12 +33,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isDOBPartsEmpty($day, $month, $year)) {
             $errors["emptyDOB"] = "Please fill your birth date (day, month, and year)!";
         }
+        if(isPasswordNotSafe($pwd))
+        {
+            $errors["notSafePwd"] = "Please make sure your password have 8+ character, and 1 special character";
+        }
 
         require_once 'config_session.inc.php';
 
         if ($errors) {
             $_SESSION["errors_register"] = $errors;
             $_SESSION["register_data"] = [
+                "pwd" => $pwd,
                 "username" => $username,
                 "email" => $email,
                 "dob" => $dob,

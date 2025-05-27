@@ -44,7 +44,7 @@
         </a>
         <div id="subMenu" class="sub-menu flex flex-col text-center absolute left-1/2 top-18 transform -translate-x-1/2 rounded-full border border-gray-300 bg-black bg-cover bg-center w-37 h-37 items-center justify-center"
              style="background-image: url('img/pokebola.png'); display: none;">
-            <a class="my-2 mb-[14px] hover:font-bold" href=""><?=$_SESSION["user_username"]?></a>
+            <a class="my-2 mb-[14px] hover:font-bold" href="user.php?user=<?=$_SESSION["user_username"]?>"><?=$_SESSION["user_username"]?></a>
             <a class="my-2 text-white flex flex-row hover:font-bold" href="">conㅤ<img class="h-7" src="img/cog.png">ㅤfigs</a>
             
             <form action="includes/logout.inc.php" method="POST"><a class="my-2 flex flex-row hover:font-bold" href=""><img src="img/logout.png" class="h-3 relative top-[7px] pr-[2px]"><button>logout</button></a></form>

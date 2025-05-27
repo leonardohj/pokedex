@@ -17,7 +17,7 @@ function register_input()
                 {
                     $hasErrors = isset($_SESSION["errors_register"]["emptyDOB"]);
                     $borderClass = $hasErrors ? "border-red-500" : "border-green-500";
-                    $borderClassPartERROR = $hasErrors ? "border-gray-600" : "border-green-500";
+                    $borderClassPartERROR = $hasErrors ? "border-red-600" : "border-green-500";
 
                 if($hasErrors)
                     {    
@@ -26,7 +26,7 @@ function register_input()
                     }
                 else
                     {
-                        echo '<select style="max-height: 120px; overflow-y: auto;" name="day" class="bg-gray-800 text-neutral-200 border '. $borderClass . ' rounded-l-md px-3 py-2 flex-1">';
+                        echo '<select style="max-height: 120px; overflow-y: auto;" name="day" class="bg-gray-800 text-neutral-200 border '. $borderClass . ' border-r-gray-600 rounded-l-md px-3 py-2 flex-1">';
                         echo '<option selected disabled style="display:none" value="'. htmlspecialchars($_SESSION["register_data"]["day"]) . '">'. htmlspecialchars($_SESSION["register_data"]["day"]) . '</option>';
                     }
                 }
@@ -55,7 +55,7 @@ function register_input()
                     }
                 else
                     {
-                    echo '<select name="month" class="bg-gray-800 text-neutral-200 border '. $borderClass . ' px-3 py-2 flex-1">';
+                    echo '<select name="month" class="bg-gray-800 text-neutral-200 border '. $borderClass . ' border-r-gray-600 border-l-gray-600  px-3 py-2 flex-1">';
                     echo '<option selected disabled style="display:none" value="'. htmlspecialchars($_SESSION["register_data"]["month"]) . '">'. htmlspecialchars($_SESSION["register_data"]["month"]) . '</option>';
                     }
                 }
@@ -85,7 +85,7 @@ function register_input()
                     }
                 else
                     {
-                        echo '<select name="year" class="bg-gray-800 text-neutral-200 border '. $borderClass . ' rounded-r-md px-3 py-2 flex-1">';
+                        echo '<select name="year" class="bg-gray-800 text-neutral-200 border '. $borderClass . ' border-l-gray-600 rounded-r-md px-3 py-2 flex-1">';
                         echo '<option selected disabled style="display:none" value="'. htmlspecialchars($_SESSION["register_data"]["year"]) . '">'. htmlspecialchars($_SESSION["register_data"]["year"]) . '</option>';
                     }
                 }
@@ -143,14 +143,33 @@ function register_input()
                 if ($hasErrors) {
                     check_email_errors();
                 }
-            } else {
+            } else 
+            {
                 echo '<input id="email" name="email" type="email" placeholder="coolpokedex@hello.dot" class="bg-gray-800 text-neutral-200 border border-gray-600 rounded-md px-3 py-2 w-full" required>';
             }
             ?>
         </div>
 
         <label for="pwd" class="text-neutral-200 font-medium mt-5 mb-1">Password</label>
-        <input id="pwd" name="pwd" type="password" placeholder="Minimum of 8 characters" class="bg-gray-800 text-neutral-200 border border-gray-600 rounded-md px-3 py-2 w-full mb-5" required>
+        <div class="relative mb-5">
+            <?php
+            if(isset($_SESSION["errors_register"]))
+            {   
+                $hasErrors = isset($_SESSION["errors_register"]["notSafePwd"]);
+                $borderClass = $hasErrors ? "border-red-500" : "border-green-500";
+
+                echo '<input id="pwd" name="pwd" type="password" placeholder="Minimum of 8 characters" class="bg-gray-800 text-neutral-200 border ' . $borderClass . ' rounded-md px-3 py-2 w-full mb-5" required>';
+                
+                if ($hasErrors && !empty($_SESSION["errors_register"]["notSafePwd"])) {
+                    check_pwd_errors();
+                }
+            }
+            else
+            {
+                echo '<input id="pwd" name="pwd" type="password" placeholder="Minimum of 8 characters" class="bg-gray-800 text-neutral-200 border border-gray-600 rounded-md px-3 py-2 w-full mb-5" required>';
+            }
+            ?>
+        </div>
         <button class="bg-gray-300 border rounded-md py-2 mt-2 cursor-pointer">Sign up</button>
         <script src="./register.js"></script>
         
@@ -194,18 +213,46 @@ function check_email_errors()
 
         if (isset($errors["takenEmail"])) {
             echo <<<HTML
-            <div class="absolute text-red-500 text-sm font-bold mt-1">
+            <div class="absolute left-0 w-full text-red-500 text-sm font-bold mt-1 min-h-[1.5em]">
                 {$errors["takenEmail"]}
             </div>
             HTML;
+        } else {
+            // Reserve space to prevent form resize
+            echo '<div class="absolute left-0 w-full min-h-[1.5em]"></div>';
         }
         if (isset($errors["invalidEmail"])) {
             echo <<<HTML
-            <div class="absolute text-red-500 text-sm font-bold mt-1">
+            <div class="absolute left-0 w-full text-red-500 text-sm font-bold mt-1 min-h-[1.5em]">
                 {$errors["invalidEmail"]}
             </div>
             HTML;
+        } else {
+            echo '<div class="absolute left-0 w-full min-h-[1.5em]"></div>';
         }
+    } else {
+        // Reserve space if no errors at all
+        echo '<div class="absolute left-0 w-full min-h-[1.5em]"></div>';
+        echo '<div class="absolute left-0 w-full min-h-[1.5em]"></div>';
+    }
+}
+
+function check_pwd_errors()
+{
+    if(isset($_SESSION['errors_register'])) {
+        $errors = $_SESSION['errors_register'];
+
+        if (isset($errors["notSafePwd"])) {
+            echo <<<HTML
+            <div class="absolute left-0 w-full text-red-500 text-sm font-bold mt-[-17px] min-h-[20px]">
+                {$errors["notSafePwd"]}
+            </div>
+            HTML;
+        } else {
+            echo '<div class="absolute left-0 w-full min-h-[20px]"></div>';
+        }
+    } else {
+        echo '<div class="absolute left-0 w-full min-h-[20px]"></div>';
     }
 }
 
@@ -216,18 +263,25 @@ function check_username_errors()
 
         if (isset($errors["takenUsername"])) {
             echo <<<HTML
-            <div class="absolute text-red-500 text-sm font-bold mt-1">
+            <div class="absolute left-0 w-full text-red-500 text-sm font-bold mt-1 min-h-[1.5em]">
                 {$errors["takenUsername"]}
             </div>
             HTML;
+        } else {
+            echo '<div class="absolute left-0 w-full min-h-[1.5em]"></div>';
         }
         if (isset($errors["invalidUsername"])) {
             echo <<<HTML
-            <div class="absolute text-red-500 text-sm font-bold mt-1">
+            <div class="absolute left-0 w-full text-red-500 text-sm font-bold mt-1 min-h-[1.5em]">
                 {$errors["invalidUsername"]}
             </div>
             HTML;
+        } else {
+            echo '<div class="absolute left-0 w-full min-h-[1.5em]"></div>';
         }
+    } else {
+        echo '<div class="absolute left-0 w-full min-h-[1.5em]"></div>';
+        echo '<div class="absolute left-0 w-full min-h-[1.5em]"></div>';
     }
 }
 
@@ -238,11 +292,15 @@ function check_dob_errors()
 
         if (isset($errors["emptyDOB"])) {
             echo <<<HTML
-            <div class="absolute text-red-500 text-sm font-bold mt-11">
+            <div class="absolute left-0 w-full text-red-500 text-sm font-bold mt-11 min-h-[1.5em]">
                 {$errors["emptyDOB"]}
             </div>
             HTML;
+        } else {
+            echo '<div class="absolute left-0 w-full min-h-[1.5em]"></div>';
         }
+    } else {
+        echo '<div class="absolute left-0 w-full min-h-[1.5em]"></div>';
     }
 }
 

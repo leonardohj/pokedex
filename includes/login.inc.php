@@ -29,7 +29,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 
         if ($errors) {
             $_SESSION["errors_login"] = $errors;
-            
+            $_SESSION["login_data"] = [
+                "firstinput" => $firstInput,
+                "pwd" => $pwd
+            ];
             header("Location: ../login.php");
             die();
         }

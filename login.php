@@ -35,30 +35,7 @@
         a
     </div>
     <main class="flex justify-center items-center flex-1">
-        <div class="bg-neutral-900 border border-gray-600 rounded-lg px-6 py-7 max-w-md w-full mb-[2%]">
-            <form action="includes/login.inc.php" class="flex flex-col mt-2 mb-1" method="POST">
-                <p class="text-center text-neutral-200 font-bold text-lg mb-5">Login to your account</p>
-                
-                <label for="usernameOrEmail" class="text-neutral-200 font-medium mt-5 mb-1">Username or email</label>
-                <input name="usernameOrEmail" type="text" placeholder="coolpokedex@hello.dot or hihiguys123" class="bg-gray-800 text-neutral-200 border border-gray-600 rounded-md px-3 py-2 w-full mb-5">
-
-                <label for="pwd" class="text-neutral-200 font-medium mt-5 mb-1">Password</label>
-                <input name="pwd" type="password" placeholder="Minimum of 8 characters" class="bg-gray-800 text-neutral-200 border border-gray-600 rounded-md px-3 py-2 w-full mb-5">
-
-                <button class="bg-gray-300 border rounded-md py-2 mt-4 cursor-pointer text-base">Log In</button>
-                
-                <div class="text-center mt-4">
-                    <a href="register.php" class="text-blue-400 hover:underline">Don't have an account? Sign up</a>
-                </div>
-                <div>
-                <?php
-                
-                check_login_errors();
-                
-                ?>
-                </div>
-            </form>
-        </div>
+       <?php login_input();?>
     </main>
     <?php include('footer.php'); ?>
 </body>

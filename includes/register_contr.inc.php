@@ -62,8 +62,25 @@ function isDOBPartsEmpty($day, $month, $year)
         return false;
     }
 }
+function isPasswordNotSafe($pwd)
+{ 
+    $pwdlenght = strlen($pwd);
+    if($pwdlenght > 8 && specialChars($pwd))
+    {
+        return false;
+    } 
+    else
+    {
+        return true;
+    }
+}
 
 function create_user(object $pdo, string $username, string $email, string $pwd, string $dob)
 {
     set_user($pdo, $username, $email, $pwd, $dob);
+}
+
+
+function specialChars($str) {
+    return preg_match('/[^a-zA-Z0-9]/', $str) > 0;
 }
