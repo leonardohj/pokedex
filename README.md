@@ -24,3 +24,13 @@ CREATE TABLE `users` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 );
 ```
+## Database of the pokedexs
+For now
+```sql
+create table pokedexs
+(
+    `ID` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `name` VARCHAR(30) NOT NULL,
+    `user_id` INT(11) NOT NULL
+);
+```

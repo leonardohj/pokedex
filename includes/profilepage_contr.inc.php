@@ -13,3 +13,4 @@ function doesUserNotExist($username, $pdo)
         return false;
     }
 }
+

@@ -12,6 +12,7 @@ if (isset($_GET["user"]))
         require_once 'profilepage_contr.inc.php';
 
         $errors = [];
+        $result = getUsername($pdo, $username);
 
         if(doesUserNotExist($username, $pdo))
         {
@@ -26,9 +27,14 @@ if (isset($_GET["user"]))
                 "username" => $username
             ];
 
-            header("Location: ../index.php?user=" . $username);
+            
             die();
         }
+        $_SESSION["profileuser_id"] = htmlspecialchars($result["ID"]);
+        $_SESSION["profileuser_username"] = htmlspecialchars($result["username"]);
+
+        $getPokedexs = getPokedexs($pdo, $_SESSION["profileuser_id"]);
+        $_SESSION["pokedexs"] = $getPokedexs;
 
         $pdo = null;
         $stmt = null;

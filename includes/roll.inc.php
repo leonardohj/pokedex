@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         { 
             $errors["emptyRole"] = "Fill in all fields!";
         }
-        if (doesUserExist($username, $pdo)) {
+        if (!doesUserExist($username, $pdo)) {
             $errors["invalidUser"] = "This user does not exist";
         }
 

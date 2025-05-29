@@ -171,7 +171,6 @@ function register_input()
             ?>
         </div>
         <button class="bg-gray-300 border rounded-md py-2 mt-2 cursor-pointer">Sign up</button>
-        <script src="./register.js"></script>
         
     </form>
     <?php
@@ -218,7 +217,6 @@ function check_email_errors()
             </div>
             HTML;
         } else {
-            // Reserve space to prevent form resize
             echo '<div class="absolute left-0 w-full min-h-[1.5em]"></div>';
         }
         if (isset($errors["invalidEmail"])) {
@@ -231,7 +229,6 @@ function check_email_errors()
             echo '<div class="absolute left-0 w-full min-h-[1.5em]"></div>';
         }
     } else {
-        // Reserve space if no errors at all
         echo '<div class="absolute left-0 w-full min-h-[1.5em]"></div>';
         echo '<div class="absolute left-0 w-full min-h-[1.5em]"></div>';
     }

@@ -26,7 +26,7 @@ function isRoleEmpty($role)
 }
 function doesUserExist($username, $pdo)
 {
-    if(!getUsername($pdo, $username))
+    if(getUsername($pdo, $username))
     {
         return true; 
     }

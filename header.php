@@ -28,14 +28,24 @@
 <body class="m-0 h-screen flex flex-col">
 <header class="flex justify-center items-center flex-nowrap">
     <div class="absolute top-5 border border-gray-300 bg-white shadow-lg py-3 rounded-lg px-4 flex-nowrap flex items-center gap-4">
-        <img src="img\pokedex3Dlogo.png" class="h-8 flex-shrink-0">
+        <a href="index.php"><img src="img\pokedex3Dlogo.png" class="h-8 flex-shrink-0"></a>
         <a href="">Main Page</a>
         <a href="">Games</a>
-        <a href="">Forum</a>
         <?php
- 
-      echo $_SESSION["user_role"];
-    
+        if($_SESSION["user_role"] != "peasent")
+        {
+          echo '<a class="border-2 border-l-0 border-t-0 border-b-0 pr-4 border-r-gray-500" href="">Forum</a>';
+          
+        }
+        else
+        {
+          echo '<a href="">Forum</a>';
+        }
+
+      if($_SESSION["user_role"] == "support" || $_SESSION["user_role"] == "admin")
+      {
+        echo '<a href="">Support Options</a>';
+      }
     ?>
     </div>
     <div class="absolute top-6 right-12">
