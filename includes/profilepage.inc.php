@@ -30,7 +30,7 @@ if (isset($_GET["user"]))
             
             die();
         }
-        $_SESSION["profileuser_id"] = htmlspecialchars($result["ID"]);
+        $_SESSION["profileuser_id"] = htmlspecialchars($result["id"]);
         $_SESSION["profileuser_username"] = htmlspecialchars($result["username"]);
 
         $getPokedexs = getPokedexs($pdo, $_SESSION["profileuser_id"]);

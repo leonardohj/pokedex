@@ -18,6 +18,6 @@ function getPokedexs(object $pdo, $userID)
     $user_id =  $userID;
     $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
     $stmt->execute();
-    $results = $stmt->fetchAll(PDO::FETCH_ASSOC); // Fix: fetchAll
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $results;
 }

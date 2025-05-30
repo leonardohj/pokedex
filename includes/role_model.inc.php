@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 function getUsername(object $pdo, string $username)
 {
     $query = "SELECT * FROM users WHERE username = :username";
@@ -27,23 +26,20 @@ function getUserInfo(object $pdo, string $username)
 
 function changeRole(object $pdo, string $username, string $role)
 {
-    
-    $query = "UPDATE users SET roll = :role WHERE username = :username;";
+    $query = "UPDATE users SET role = :role WHERE username = :username;";
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(":username", $username); 
     $stmt->bindParam(":role", $role); 
-    
     $stmt->execute();
 
-    updateSessionRoll($username, $pdo);
+    updateSessionRole($username, $pdo);
 }
 
-function updateSessionRoll(string $username, object $pdo)
+function updateSessionRole(string $username, object $pdo)
 {
     if($username == $_SESSION["user_username"])
     {
-    $userdata = getUserInfo($pdo, $username);
-
-    $_SESSION["user_role"] = $userdata["roll"];
+        $userdata = getUserInfo($pdo, $username);
+        $_SESSION["user_role"] = $userdata["role"];
     }
 }

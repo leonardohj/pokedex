@@ -44,7 +44,7 @@
 
       if($_SESSION["user_role"] == "support" || $_SESSION["user_role"] == "admin")
       {
-        echo '<a href="">Support Options</a>';
+        echo '<a href="support.php">Support Options</a>';
       }
     ?>
     </div>

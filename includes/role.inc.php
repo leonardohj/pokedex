@@ -7,9 +7,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     try {
         require_once 'dbh.inc.php';
-        require_once 'roll_model.inc.php';
-        require_once 'roll_view.inc.php';
-        require_once 'roll_contr.inc.php';
+        require_once 'role_model.inc.php';
+        require_once 'role_view.inc.php';
+        require_once 'role_contr.inc.php';
 
 
         $errors = [];
@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 "username" => $username,
                 "roles" => $role
                 ];
-            header("Location: ../index.php");
+            header("Location: ../support.php");
             exit();
         }
 
@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $pdo = null;
         $stmt = null;
 
-        header("Location: ../index.php?rolegiven=success");
+        header("Location: ../support.php?rolegiven=success");
         die();
     } catch (PDOException $e) {
         die("Connection failed: " . $e->getMessage());

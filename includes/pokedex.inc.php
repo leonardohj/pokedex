@@ -15,10 +15,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 
         $result = getUsername($pdo, $_SESSION["user_username"]);
 
-        $_SESSION["user_id"] = htmlspecialchars($result["ID"]);
+        $_SESSION["user_id"] = htmlspecialchars($result["id"]);
         $_SESSION["user_username"] = htmlspecialchars($result["username"]);
         $_SESSION["user_email"] = htmlspecialchars($result["email"]);
-        $_SESSION["user_role"] = htmlspecialchars($result["roll"]);
+        $_SESSION["user_role"] = htmlspecialchars($result["role"]);
 
         $userID = $_SESSION["user_id"];
         $errors = [];

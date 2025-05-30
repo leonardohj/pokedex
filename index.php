@@ -1,7 +1,7 @@
 <title>Pokedex - HomePage</title>
 
 <?php
-    require_once 'includes/roll_view.inc.php';
+    require_once 'includes/role_view.inc.php';
     require_once 'includes/config_session.inc.php';
     include('header.php');
 
@@ -27,11 +27,6 @@ printSucessfullRole();
         <img src="img/SnorlaxHomePage.gif" alt="Snorlax" class="mx-auto">
     </div>
     <div>
-    <?php
-    
-    roll_input();
-
-    ?>
     
 </main>
 <?php
