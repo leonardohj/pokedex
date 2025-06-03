@@ -3,7 +3,8 @@
 if($_SERVER["REQUEST_METHOD"] == "POST")
 {
     $pokedexName = $_POST["pokedexName"];
-    
+    $description = empty($_POST["description"]) ? 'No description' : $_POST["description"];
+    $generationsdata = isset($_POST["generations"]) ? $_POST["generations"] : [];
 
     try {
         require_once 'dbh.inc.php';
@@ -24,24 +25,29 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
         $errors = [];
 
         if (isInputEmpty($pokedexName)) {
-            $errors["emptyInput"] = "Fill in all fields!";
+            $errors["emptyInputName"] = "Fill in all fields!";
         }
-         
+        
+        if (empty($generationsdata)) {
+            $errors["emptyInputGen"] = "Fill in the generations <br> you want for your pokedex!";
+        }
+
         if (DoesUserHaveAlreadyTsPokedex($pokedexName, $pdo, $userID)) {
             $errors["usedPokedexName"] = "Duplicate Pokédex name!";
         }
 
-
         if ($errors) {
             $_SESSION["errors_pokedex"] = $errors;
             $_SESSION["pokedex_data"] = [
-                "pokedexName" => $pokedexName
+                "pokedexName" => $pokedexName,
+                "description" => $description,
+                "generations" => $generationsdata
             ];
             header("Location: ../user.php?user=" . $_SESSION["user_username"]);
             die();
         }
 
-        create_pokedex($pdo, $pokedexName,  $userID);
+        create_pokedex($pdo, $pokedexName, $description, $generationsdata, $userID);
 
         header("Location: ../user.php?user=" . $_SESSION["user_username"] . "&created=success");
         

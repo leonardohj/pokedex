@@ -31,7 +31,9 @@ create table pokedexs
 (
     `id` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `name` VARCHAR(30) NOT NULL,
-    `user_id` INT(11) NOT NULL
+    `description` VARCHAR(255) NOT NULL,
+    `generations` VARCHAR(11) NOT NULL,
+    `user_id` INT(11) NOT NULL,
 );
 ```
 ## Creating the table "pokemons"

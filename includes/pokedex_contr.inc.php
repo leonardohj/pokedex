@@ -1,15 +1,16 @@
 <?php
 
 
-function isInputEmpty($pokedexName)
+function isInputEmpty($input)
 {
-    if(empty($pokedexName))
+    if(empty($input))
     {
         return true;
     }
     else
     {
         return false;
+
     }
 }
 
@@ -24,7 +25,7 @@ function DoesUserHaveAlreadyTsPokedex($pokedexName, $pdo, $userID)
         return false;
     }
 }
-function create_pokedex($pdo, $pokedexName, $userID)
+function create_pokedex($pdo, $pokedexName, $description, $generationsdata, $userID)
 {
-    set_pokedex($pdo, $pokedexName, $userID);
+    set_pokedex($pdo, $pokedexName, $description, $generationsdata, $userID);
 }

@@ -9,15 +9,14 @@ function pokemon_input()
         <div>
             <label for="pokemonName" class="text-sm font-medium text-gray-700">Pokemon name</label>
             <br>
-            <div class="mb-1 mt-1">
+            <div class="mb-1 mt-1 relative">
             <?php
             if(isset($_SESSION["pokemon_data"]["pokemonName"]))
             {
                 $hasErrors = isset($_SESSION["errors_pokemon"]["emptyName"]) || isset($_SESSION["errors_pokemon"]["duplicatePokemon"]);
                 $borderColor = $hasErrors ? "border-red-500" : "border-green-500";
                 $value = htmlspecialchars($_SESSION["pokemon_data"]["pokemonName"]);
-                echo '<input type="text" name="pokemonName" placeholder="name here..." class="border '. $borderColor .' rounded-lg px-3 py-2 text-sm" style="width: 200px; min-width: 200px; max-width: 200px;" value="'. $value .'">';
-
+                echo '<input type="text" name="pokemonName" placeholder="name here..." class="border '. $borderColor .' rounded-lg px-3 py-2 text-sm w-full" style="max-width:200px;" value="'. $value .'">';
                 if($hasErrors)
                 {
                     check_pokemonName_errors();
@@ -25,22 +24,21 @@ function pokemon_input()
             }
             else
             {
-                echo '<input type="text" name="pokemonName" placeholder="name here..." class="border border-gray-600 rounded-lg px-3 py-2 text-sm" style="width: 200px; min-width: 200px; max-width: 200px;">';
+                echo '<input type="text" name="pokemonName" placeholder="name here..." class="border border-gray-600 rounded-lg px-3 py-2 text-sm w-full" style="max-width:200px;">';
             }
             ?>
             </div>
         </div>
         <div>
             <label for="image" class="text-sm font-medium text-gray-700">Image</label>
-            <div class="mt-1">
+            <div class="mt-1 relative">
             <?php
             if(isset($_SESSION["pokemon_data"]["image"]))
             {
                 $hasErrors = isset($_SESSION["errors_pokemon"]["emptyImage"]) || isset($_SESSION["errors_pokemon"]["imageNotLink"]);
                 $borderColor = $hasErrors ? "border-red-500" : "border-green-500";
                 $value = htmlspecialchars($_SESSION["pokemon_data"]["image"]);
-                echo '<input type="url" name="image" placeholder="image here..." class="border '. $borderColor .' rounded-lg px-3 py-2 text-sm" style="width: 200px; min-width: 200px; max-width: 200px;" value="'. $value .'">';
-
+                echo '<input type="url" name="image" placeholder="image here..." class="border '. $borderColor .' rounded-lg px-3 py-2 text-sm w-full" style="max-width:200px;" value="'. $value .'">';
                 if($hasErrors)
                 {
                     check_image_errors();
@@ -48,7 +46,7 @@ function pokemon_input()
             }
             else
             {
-                echo '<input type="url" name="image" placeholder="image here..." class="border border-gray-600 rounded-lg px-3 py-2 text-sm" style="width: 200px; min-width: 200px; max-width: 200px;">';
+                echo '<input type="url" name="image" placeholder="image here..." class="border border-gray-600 rounded-lg px-3 py-2 text-sm w-full" style="max-width:200px;">';
             }
             ?>
             </div>
@@ -57,15 +55,14 @@ function pokemon_input()
     <div class="mt-4">
         <label for="description" class="text-sm font-medium text-gray-700">Description</label>
         <br>
-        <div class="mt-1">
+        <div class="mt-1 relative">
         <?php
         if(isset($_SESSION["pokemon_data"]["description"]))
         {
             $hasErrors = isset($_SESSION["errors_pokemon"]["emptyDescription"]);
             $borderColor = $hasErrors ? "border-red-500" : "border-green-500";
             $value = htmlspecialchars($_SESSION["pokemon_data"]["description"]);
-            echo '<textarea name="description" id="description" cols="25" rows="5" class="border '. $borderColor .' rounded-lg px-3 py-2 text-sm" style="width: 420px; min-width: 420px; max-width: 420px; resize: none;">'. $value .'</textarea>';
-
+            echo '<textarea name="description" id="description" cols="25" rows="5" class="border '. $borderColor .' rounded-lg px-3 py-2 text-sm w-full" style="max-width:420px;resize:none;">'. $value .'</textarea>';
             if($hasErrors)
             {
                 check_description_errors();
@@ -73,26 +70,26 @@ function pokemon_input()
         }
         else
         {
-            echo '<textarea name="description" id="description" cols="25" rows="5" class="border border-gray-600 rounded-lg px-3 py-2 text-sm" style="width: 420px; min-width: 420px; max-width: 420px; resize: none;"></textarea>';
+            echo '<textarea name="description" id="description" cols="25" rows="5" class="border border-gray-600 rounded-lg px-3 py-2 text-sm w-full" style="max-width:420px;resize:none;"></textarea>';
         }
         ?>
         </div>
     </div>
     <div class="mt-4 mb-1">
         <label for="generation" class="text-sm font-medium text-gray-700">Generation</label>
-        <div class="mt-1">
+        <div class="mt-1 relative">
             <?php
                 if(isset($_SESSION["pokemon_data"]["generation"]))
                 {
                     $hasErrors = isset($_SESSION["errors_pokemon"]["emptyGen"]);
                     $borderColor = $hasErrors ? "border-red-500" : "border-green-500";
                     $selectedGen = htmlspecialchars($_SESSION["pokemon_data"]["generation"]);
-                    echo '<select name="generation" class="border '. $borderColor .' rounded-lg px-3 py-2 text-sm" style="width: 420px; min-width: 420px; max-width: 420px;">';
+                    echo '<select name="generation" class="border '. $borderColor .' rounded-lg px-3 py-2 text-sm w-full" style="max-width:420px;">';
                     echo '<option selected  style="display:none" value="'. $selectedGen .'">'. $selectedGen .'</option>';
                 }
                 else
                 {
-                    echo '<select name="generation" class="border border-gray-600 rounded-lg px-3 py-2 text-sm" style="width: 420px; min-width: 420px; max-width: 420px;">';
+                    echo '<select name="generation" class="border border-gray-600 rounded-lg px-3 py-2 text-sm w-full" style="max-width:420px;">';
                     echo '<option selected disabled style="display:none" value="">Choose generation</option>';
                 }
 
@@ -101,9 +98,12 @@ function pokemon_input()
                     echo '<option value="'. $i .'">'. $i .'</option>';
                 }
                 echo '</select>';
+                if(isset($hasErrors) && $hasErrors)
+                {
+                    check_generation_errors();
+                }
             ?>
         </div>
-        <?=check_generation_errors();?>
     </div>
     <div class="mt-5 mb-1">
         <button class="mt-3 px-3 border border-red-500 bg-red-500 text-white font-bold rounded-lg py-2 transition hover:bg-red-600 shadow">
@@ -113,7 +113,6 @@ function pokemon_input()
 </form>
 <?php
     printSucessfullPokemon();
-    
     unset($_SESSION["pokemon_data"]);
     unset($_SESSION["errors_pokemon"]);
 }

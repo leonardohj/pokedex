@@ -5,71 +5,76 @@ function role_input()
 ?>
 <h2 id="#role" class="#role text-xl font-bold mb-5">Give roles</h2>
 <form action="includes/role.inc.php" method="POST">   
+    <div class="mb-1">
         <label for="username" class="text-sm font-medium text-gray-700">Username</label>
         <br>
-        <div class="mb-1">
+        <div class="relative" style="min-height:1.5em;">
         <?php
+        $borderColor = "border-green-500";
         if(isset($_SESSION["role_data"]["username"]))
         {
-            $hasErrors = isset($_SESSION["errors_role"]["emptyUsername"]) || isset($_SESSION["errors_role"]["invalidUser"]);
+            $hasErrors = isset($_SESSION["errors_role"]);
             $borderColor = $hasErrors ? "border-red-500" : "border-green-500";
-
-            echo '<input class="border '. $borderColor .' rounded-lg px-3 py-2 text-sm" style="width: 200px; min-width: 200px; max-width: 200px;" name="username" type="text" placeholder="username here...">';
-            
+            echo '<input class="border '. $borderColor .' rounded-lg px-3 py-2 text-sm w-full" style="max-width:200px;" name="username" type="text" placeholder="username here...">';
+            echo '<div class="w-full" style="min-height:1.5em;">';
             if($hasErrors)
             {
                 check_username_errors();
             }
+            echo '</div>';
         }
         else
         {
-            echo '<input class="border border-gray-600 rounded-lg px-3 py-2 text-sm" style="width: 200px; min-width: 200px; max-width: 200px;" name="username" type="text" placeholder="username here...">';
+            echo '<input class="border border-gray-600 rounded-lg px-3 py-2 text-sm w-full" style="max-width:200px;" name="username" type="text" placeholder="username here...">';
+            echo '<div class="w-full" style="min-height:1.5em;"></div>';
         }
         ?>
         </div>
-        <br>
+    </div>
+    <div class="mb-1">
         <label for="roles" class="text-sm font-medium text-gray-700">Roles</label>
-        <div class="mt-1">
-        <?php
+        <br>
+        <div class="relative" style="min-height:1.5em;">
+        <?php        
         if(isset($_SESSION["role_data"]["roles"]))
-            {
-                $hasErrors = isset($_SESSION["errors_role"]["emptyRole"]);
-                $borderColor = $hasErrors ? "border-red-500" : "border-green-500";
-
-                echo '<select name="roles" class="border '. $borderColor .' rounded-lg px-3 py-2 text-sm" style="width: 200px; min-width: 200px; max-width: 200px;">';
-                echo '<option selected style="display:none" value="'. htmlspecialchars($_SESSION["role_data"]["roles"]) .'">Choose role</option>';
-                
-            } 
-            else
-            {
-                echo '<select name="roles" class="border border-gray-600 rounded-lg px-3 py-2 text-sm" style="width: 200px; min-width: 200px; max-width: 200px;">';
-                echo '<option selected  style="display:none" value="">Choose role</option>';
-            }
-
+        {
+            $hasErrors = isset($_SESSION["errors_role"]);
+            $borderColor = $hasErrors ? "border-red-500" : "border-green-500";
+            echo '<select class="border '. $borderColor .' rounded-lg px-3 text-sm py-2 w-full" style="max-width:200px;" name="roles">';
+            echo '<option selected style="display:none" value="">choose role</option>';
             echo '<option value="admin">admin</option>';
             echo '<option value="support">support</option>';
             echo '<option value="peasent">peasent</option>';
             echo '</select>';
-            
+            echo '<div class="w-full" style="min-height:1.5em;">';
+            if($hasErrors)
+            {
+                check_roles_errors();
+            }
+            echo '</div>';
+        }
+        else
+        {
+            echo '<select class="border border-gray-600 rounded-lg px-3 text-sm py-2 w-full" style="max-width:200px;" name="roles">';
+            echo '<option selected style="display:none" value="">choose role</option>';
+            echo '<option value="admin">admin</option>';
+            echo '<option value="support">support</option>';
+            echo '<option value="peasent">peasent</option>';
+            echo '</select>';
+            echo '<div class="w-full" style="min-height:1.5em;"></div>';
+        }
         ?>
         </div>
-        <div class="">
-            <?=check_roles_errors();?>
-        </div>
-        
-        <br>
-        <button class="mt-2 px-3 border border-red-500 bg-red-500 text-white font-bold rounded-lg py-2 transition hover:bg-red-600 shadow">
+    </div>
+    <button class="mt-3 px-3 border border-red-500 bg-red-500 text-white font-bold rounded-lg py-2 transition hover:bg-red-600 shadow">
         Give the role
     </button>
-    <br>
 </form>
-
 <?php
-    printSucessfullRole();
-    
     unset($_SESSION["role_data"]);
     unset($_SESSION["errors_role"]);
 }
+
 function printSucessfullRole()
 {
     if (isset($_GET["rolegiven"]) && $_GET["rolegiven"] === "success")
@@ -101,7 +106,7 @@ function check_username_errors()
         if (isset($errors["emptyUsername"]))
         {
             echo <<<HTML
-            <div class="absolute w-full text-red-500 text-sm font-bold break-normal">
+            <div class="text-red-500 text-sm font-bold break-normal">
                 {$errors["emptyUsername"]}
             </div>
             HTML;
@@ -109,7 +114,7 @@ function check_username_errors()
         else if(isset($errors["invalidUser"]))
         {
             echo <<<HTML
-            <div class="absolute w-full text-red-500 text-sm font-bold break-normal">
+            <div class="text-red-500 text-sm font-bold break-normal">
                 {$errors["invalidUser"]}
             </div>
             HTML;
@@ -126,7 +131,7 @@ function check_roles_errors()
         if (isset($errors["emptyRole"]))
         {
             echo <<<HTML
-            <div class="absolute w-full text-red-500 text-sm font-bold break-normal">
+            <div class="text-red-500 text-sm font-bold break-normal">
                 {$errors["emptyRole"]}
             </div>
             HTML;
