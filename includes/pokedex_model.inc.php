@@ -12,8 +12,18 @@ function checkIfUserHavePokedexSameName($pokedexName, $pdo)
     $results = $stmt->fetch(PDO::FETCH_ASSOC);
     return $results;
 }
+function getPokedex($pokedexName, $pdo)
+{
+    $query = "SELECT * FROM pokedexs WHERE name = :name AND user_id = :user_id;";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(":name", $pokedexName);
+    $stmt->bindParam(":user_id", $_SESSION["user_id"]);
+    $stmt->execute();
+    $results = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $results;
+}
 
-function getUsername(object $pdo, string $username)
+function getUsernamePokedex(object $pdo, string $username)
 {
     $query = "SELECT * FROM users WHERE username = :username;";
     $stmt = $pdo->prepare($query);
@@ -21,6 +31,15 @@ function getUsername(object $pdo, string $username)
     $stmt->execute();
     $results = $stmt->fetch(PDO::FETCH_ASSOC);
     return $results;
+}
+
+function getAllPokemons($pdo, $g)
+{
+    $query = "SELECT * FROM pokemons WHERE generation = :generation";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(":generation", $g); 
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC); 
 }
 
 function set_pokedex(object $pdo, string $pokedexName, string $description, array $generationsdata, string $userID)
@@ -39,5 +58,24 @@ function set_pokedex(object $pdo, string $pokedexName, string $description, arra
     $stmt->bindParam(":description", $description);
     $stmt->bindParam(":generations", $generationsfinaldata);
     $stmt->bindParam(":user_id", $userID);
+    $stmt->execute();
+}
+function update_pokedex(object $pdo, string $pokedexName, string $description, array $generationsdata, string $userID)
+{
+
+    $generationsfinaldata = 0;
+
+    foreach($generationsdata as $generations)
+    {
+        $generationsfinaldata .= $generations;
+    }
+
+    $query = "UPDATE pokedexs SET name = :name, description = :description, generations = :generations WHERE id = :id;";
+    $stmt = $pdo->prepare($query);
+
+    $stmt->bindParam(":name", $pokedexName, PDO::PARAM_STR);
+    $stmt->bindParam(":description", $description);
+    $stmt->bindParam(":generations", $generationsfinaldata);
+    $stmt->bindParam(":id", $_SESSION["actual_pokedex_id"]);
     $stmt->execute();
 }

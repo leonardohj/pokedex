@@ -1,5 +1,5 @@
 <?php
-
+    
 if($_SERVER["REQUEST_METHOD"] == "POST")
 {
     $pokedexName = $_POST["pokedexName"];
@@ -14,7 +14,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
         require_once 'config_session.inc.php';
 
 
-        $result = getUsername($pdo, $_SESSION["user_username"]);
+        $result = getUsernamePokedex($pdo, $_SESSION["user_username"]);
 
         $_SESSION["user_id"] = htmlspecialchars($result["id"]);
         $_SESSION["user_username"] = htmlspecialchars($result["username"]);
@@ -43,13 +43,22 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
                 "description" => $description,
                 "generations" => $generationsdata
             ];
-            header("Location: ../user.php?user=" . $_SESSION["user_username"]);
+            
+            if(!empty($pokedexName) && !empty($_SESSION["INpokedex"]))
+            {
+                header("Location: ../user.php?user=" . $_SESSION["user_username"] . "&pokedex=" . urlencode($_SESSION["INpokedex"]));
+            }
+            else
+            {
+                header("Location: ../user.php?user=" . $_SESSION["user_username"]);
+            }
             die();
         }
 
+
         create_pokedex($pdo, $pokedexName, $description, $generationsdata, $userID);
 
-        header("Location: ../user.php?user=" . $_SESSION["user_username"] . "&created=success");
+        header("Location: ../user.php?user=" . $_SESSION["user_username"] . "&created=success&pokedex=" . htmlspecialchars($pokedexName));
         
         $pdo = null;
         $stmt = null;

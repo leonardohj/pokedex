@@ -48,6 +48,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 
         $_SESSION["last_regeneration"] = time();
         
+        $_SESSION["pokemonsPokedex"] = fetchAllPokemons($pdo);
+
         header("Location: ../index.php?index=sucess"); 
         $pdo = null;
         $stmt = null;

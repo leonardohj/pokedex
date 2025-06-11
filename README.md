@@ -44,10 +44,14 @@ create table pokemons
     `id` INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `name` VARCHAR(30) NOT NULL,
     `generation` INT(11) NOT NULL,
-    `image` VARCHAR(100) NOT NULL,
-    `description` VARCHAR(255) NOT NULL
+    `image` VARCHAR(255) NOT NULL,
+    `pokedexEntry` VARCHAR(255) NOT NULL,
+    `type1` VARCHAR(15) NOT NULL,
+    `type2` VARCHAR(15) NOT NULL
 );
 ```
+## Inserting pokemons into database
+The insert sql query code is in a txt file called "pokemons.text" as it is too much big to insert it here
 ## Admin account
 To check out the admin features, you need an admin account, and of course new accounts dont come with the admin tag, so you are going to need to create one!
 

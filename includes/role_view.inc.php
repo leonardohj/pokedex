@@ -3,7 +3,7 @@
 function role_input()
 {
 ?>
-<h2 id="#role" class="#role text-xl font-bold mb-5">Give roles</h2>
+<h2 id="roles" class="#role text-xl font-bold mb-5">Give roles</h2>
 <form action="includes/role.inc.php" method="POST">   
     <div class="mb-1">
         <label for="username" class="text-sm font-medium text-gray-700">Username</label>

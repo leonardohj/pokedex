@@ -31,10 +31,10 @@
             
             <ul class="space-y-2">
                 <li>
-                    <a href="#role" class="block px-4 mt-1 py-2 rounded hover:bg-gray-100 text-gray-800 font-medium">Give roles</a>
+                    <a href="#roles" id="" class="block px-4 mt-1 py-2 rounded hover:bg-gray-100 text-gray-800 font-medium">Give roles</a>
                 </li>
                 <li>
-                    <a href="#" class="block px-4 py-2 rounded hover:bg-gray-100 text-gray-800 font-medium">Insert pokemons</a>
+                    <a href="#pokemon" class="block px-4 py-2 rounded hover:bg-gray-100 text-gray-800 font-medium">Insert pokemons</a>
                 </li>
                 <li>
                     <a href="#" class="block px-4 py-2 rounded hover:bg-gray-100 text-gray-800 font-medium">Logs</a>
