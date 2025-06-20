@@ -8,33 +8,6 @@ function show_pokedexs()
         ?>
         
         <?php
-        foreach($_SESSION["pokedexs"] as $pokedex) 
-        {
-            if (isset($_GET["pokedex"])) {
-
-            if($_GET["pokedex"] == $pokedex['name'])
-            {
-                
-            echo '<li class="transition hover:scale-[1.03] rounded-lg ">
-                    <a href="user.php?user='. $_SESSION["profileuser_username"]. '&pokedex='. htmlspecialchars($pokedex['name']) .'" class="block px-4 mt-1 py-2 rounded bg-gray-100 hover:bg-gray-100 text-gray-800 font-medium transition">' . htmlspecialchars($pokedex['name']) . '</a>
-                </li>';
-            }
-            
-            else
-            {
-            echo '<li class="transition hover:scale-[1.03] rounded-lg ">
-                    <a href="user.php?user='. $_SESSION["profileuser_username"]. '&pokedex='. htmlspecialchars($pokedex['name']) .'" class="block px-4 mt-1 py-2 rounded focus:bg-gray-100 hover:bg-gray-100 text-gray-800 font-medium transition">' . htmlspecialchars($pokedex['name']) . '</a>
-                </li>';
-            }
-            }
-            else
-            {
-               echo '<li class="transition hover:scale-[1.03] rounded-lg ">
-                    <a href="user.php?user='. $_SESSION["profileuser_username"]. '&pokedex='. htmlspecialchars($pokedex['name']) .'" class="block px-4 mt-1 py-2 rounded focus:bg-gray-100 hover:bg-gray-100 text-gray-800 font-medium transition">' . htmlspecialchars($pokedex['name']) . '</a>
-                </li>'; 
-            }
-
-        }
         if($_SESSION['profileuser_username'] == $_SESSION['user_username'])
         {
             create_pokedex_input();
@@ -48,14 +21,15 @@ function show_pokedexs()
     {
         if($_SESSION['profileuser_username'] == $_SESSION['user_username'])
         {
-            echo '<div class="flex flex-col items-center justify-center text-center mt-4 w-65">';
+            echo '<div class="flex flex-col justify-center items-center">';
             echo 'You dont have any pokedexs click <br> on the button below  to create one!';
             create_pokedex_input();
+
             echo '</div>';
         }
         else
         {
-            echo '<div class="flex flex-col items-center justify-center text-center mt-4 w-65">';
+            echo '<div class="">';
             echo 'This user does not <br> have any pokedexs...';
             echo '</div>';
         }
@@ -65,8 +39,10 @@ function show_pokedexs()
 function create_pokedex_input()
 {
     ?>
-    <button onclick="showModal()" id="showModalButton" class="border border-red-500 bg-red-500 text-white text-bold rounded-lg p-1 mt-4">New DEX</button>
-    
+    <button onclick="showModal()" id="showModalButton" class="mt-4 items-center gap-2 border bg-red-200 border-red-200 px-4 py-3 font-semibold rounded-lg text-md font-medium text-gray-700 hover:bg-red-300 transition w-full">
+        + Create Pokédex
+    </button>
+
     <div class="modal" id="modal" style="display: none;">
         <div style="background-color: rgba(0,0,0,0.4);" class="modal-behind-background fixed inset-0 w-screen h-screen flex items-center justify-center z-[1000]">
             <div>
@@ -106,7 +82,7 @@ function create_pokedex_input()
                                     }
                                     else
                                     {
-                                        echo '<input type="text" name="pokedexName" placeholder="Name here" class="border border-gray-600 rounded-lg px-3 py-2 mb-5" style="width:320px;max-width:320px;min-width:320px;">';
+                                        echo '<input type="text" name="pokedexName" placeholder="Name here" class="border border-gray-300 rounded-lg px-3 py-2 mb-5" style="width:320px;max-width:320px;min-width:320px;">';
                                     }
                                     ?>
                                     <label for="description"  class="text-sm font-medium text-gray-700 text-left">Description</label>
@@ -205,12 +181,13 @@ function create_pokedex_input()
                 </div>
                     <script>
                         document.addEventListener('DOMContentLoaded', function() {
-                        const checkboxes = document.querySelectorAll('.generations-required');
-                        const form = document.querySelector('form[action="includes/pokedex.inc.php"]');
+                            const form = document.querySelector('form[action="includes/pokedex.inc.php"]');
                             if(form) {
                                 form.addEventListener('submit', function(e) {
-                                let checked = false;
-                                checkboxes.forEach(cb => { if(cb.checked) checked = true; });
+                                    // Always get checkboxes inside the form on submit
+                                    const checkboxes = form.querySelectorAll('.generations-required');
+                                    let checked = false;
+                                    checkboxes.forEach(cb => { if(cb.checked) checked = true; });
                                     if(!checked) {
                                         e.preventDefault();
                                         alert('Please select at least one generation.');
@@ -220,12 +197,6 @@ function create_pokedex_input()
                         });
                     </script>
                 <?php
-                if(isset($_GET['edited']) && $_GET['edited'] === "success")
-                    {
-                        unset($_SESSION["pokedex_data"]);
-                        unset($_SESSION["errors_pokedexEdit"]);
-                        unset($_SESSION["errors_pokedex"]);
-                    }
                 ?>
             </div>
         </div>
@@ -240,19 +211,20 @@ function create_pokedex_input()
         function closeModal()
         {
             document.getElementById("modal").style.display = "none";
-            
         }
     </script>
 <?php
-$hasErrors = isset($_SESSION["errors_pokedex"]);
-unsetData($hasErrors);
+
 }
 function editModal($pokedex)
 {
     $_SESSION["actual_pokedex_name"] = $pokedex['name'];
     ?>
     
-    <button onclick="showEditModal()" id="showEditModalButton"><img src="img/pencilEdit.svg" class="mx-4 h57 w-5"></button> 
+    <button onclick="showEditModal()" id="showEditModalButton"><img src="img/pencilEdit.svg" class="ml-8 mr-2 h57 w-5"></button> 
+    <form action="includes/pokedex_delete.inc.php" method="POST" onsubmit="return confirmDeletePokedex();">
+        <button type="submit"><img src="img/trash.png" class="ml-2 h57 w-5"></button>
+    </form>
     <div class="modal2" id="modal2" style="display: none;">
         <div style="background-color: rgba(0,0,0,0.4);" class="modal-behind-background fixed inset-0 w-screen h-screen flex items-center justify-center z-[1000]">
             <div>
@@ -440,15 +412,17 @@ function editModal($pokedex)
         {
             document.getElementById("modal2").style.display = "none";
         }
+        function confirmDeletePokedex()
+        {
+            return confirm("You sure you want to delete this pokedex?");
+        }
     </script>
     <?php
     if(isset($_GET['edited']) && $_GET['edited'] === "wentwrong")
     {
         echo '<script>showEditModal();</script>';
     }
-}
-function unsetData($hasErrors)
-{
+
 }
 function show_pokedex_content()
 {
@@ -493,6 +467,7 @@ function show_pokedex_content()
                     } 
                 }
                 echo '</div>';
+                unsetdata($pokedex['name']);
             }
         }
     }
@@ -515,28 +490,48 @@ function show_pokemons_by_generation($g)
         }
     }
 }
+function unsetdata($typedata)
+{
+    if(!isset($_SESSION["errors_pokedex"]) || !$_SESSION["errors_pokedexEdit"])
+    {
+        unset($_SESSION["pokedex_data"]);
+    }
+    if($typedata === "edit")
+    {
+        unset($_SESSION["errors_pokedexEdit"]);
+    }
+    else if($typedata === "create")
+    {
+        unset($_SESSION["errors_pokedex"]);
+    }
+    if(!isset($_GET["pokedex"]) && $_GET["pokedex"] !== $typedata)
+    {
+        unset($_SESSION["errors_pokedexEdit"]);
+        unset($_SESSION["pokedex_data"]);
+    }
+}
 function colors_type($pokemon)
 {
     $types = [
-        "Normal" => "bg-gray-300",
-        "Fire" => "bg-red-400",
-        "Fighting" => "bg-yellow-800",
-        "Water" => "bg-blue-400",
-        "Flying" => "bg-blue-200",
-        "Grass" => "bg-lime-300",
-        "Poison" => "bg-violet-600",
-        "Eletric" => "bg-amber-300",
-        "Ground" => "bg-yellow-400",
-        "Psychic" => "bg-fuchsia-400",
-        "Rock" => "bg-amber-200",
-        "Ice" => "bg-sky-200",
-        "Bug" => "bg-lime-500",
-        "Dragon" => "bg-violet-400",
-        "Ghost" => "bg-purple-800",
-        "Dark" => "bg-yellow-900",
-        "Steel" => "bg-slate-300",
-        "Fairy" => "bg-fuchsia-200",
-        "Stellar" => "grad1"
+        "Normal"   => "bg-gray-300", 
+        "Fire"     => "bg-[#F08030]", 
+        "Fighting" => "bg-[#C03028]",  
+        "Water"    => "bg-[#6890F0]", 
+        "Flying"   => "bg-[#A890F0]", 
+        "Grass"    => "bg-[#78C850]", 
+        "Poison"   => "bg-[#A040A0]", 
+        "Eletric"  => "bg-[#F8D030]", 
+        "Ground"   => "bg-[#E0C068]",
+        "Psychic"  => "bg-[#F85888]", 
+        "Rock"     => "bg-[#B8A038]", 
+        "Ice"      => "bg-[#98D8D8]", 
+        "Bug"      => "bg-[#A8B820]", 
+        "Dragon"   => "bg-[#7038F8]", 
+        "Ghost"    => "bg-[#705898]", 
+        "Dark"     => "bg-[#705848]", 
+        "Steel"    => "bg-[#B8B8D0]", 
+        "Fairy"    => "bg-[#EE99AC]", 
+        "Stellar"  => "grad1"
     ];
     ?>
     <style>
@@ -551,13 +546,13 @@ function colors_type($pokemon)
         if($typename == $pokemon['type1'])
         {
             ?>
-            <div class="<?=$typecolor?> border rounded-lg w-14 h-7 flex items-center justify-center font-bold text-white"><?=$typename?></div>
+            <div class="<?=$typecolor?> border rounded-lg w-18 h-7 flex items-center justify-center font-bold text-white"><?=$typename?></div>
             <?php
         }
         if($typename == $pokemon['type2'] && $pokemon['type2'] && $pokemon['type2'] != $pokemon['type1'])
         {
             ?>
-            <div class="<?=$typecolor?> border rounded-lg w-14 h-7 flex items-center justify-center font-bold text-white"><?=$typename?></div>
+            <div class="<?=$typecolor?> border rounded-lg w-18 h-7 flex items-center justify-center font-bold text-white"><?=$typename?></div>
             <?php
         }
     }

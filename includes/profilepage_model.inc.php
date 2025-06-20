@@ -19,5 +19,15 @@ function getPokedexs(object $pdo, $userID)
     $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
     $stmt->execute();
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt = null;
+    $query = null;
+
+    $query = "SELECT COUNT(*) FROM pokedexs WHERE user_id = :user_id;";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $result2 = $stmt->fetch(PDO::FETCH_NUM);
+    $_SESSION["howManyPokedexs"] = $result2;
+
     return $results;
 }

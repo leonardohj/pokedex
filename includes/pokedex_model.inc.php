@@ -79,3 +79,11 @@ function update_pokedex(object $pdo, string $pokedexName, string $description, a
     $stmt->bindParam(":id", $_SESSION["actual_pokedex_id"]);
     $stmt->execute();
 }
+function remove_pokedex($pdo, $pokedexName, $id)
+{
+    $query = "DELETE FROM pokedexs WHERE id = :id;";
+    $stmt = $pdo->prepare($query);
+
+    $stmt->bindParam(":id", $_SESSION["actual_pokedex_id"]);
+    $stmt->execute();
+}

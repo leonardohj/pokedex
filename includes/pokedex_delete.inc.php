@@ -23,36 +23,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
         $_SESSION["user_role"] = htmlspecialchars($result["role"]);
 
         $userID = $_SESSION["user_id"];
-        
-        $errors = [];
-        
-        if (isInputEmpty($pokedexName)) {
-            $errors["emptyInputNameEdit"] = "Fill in all fields!";
-        }
-        
-        if (empty($generationsdata)) {
-            $errors["emptyInputGenEdit"] = "Fill in the generations <br> you want for your pokedex!";
-        }
 
-        if (DoesUserHaveAlreadyTsPokedexEdit($pokedexName, $pdo, $userID)) {
-            $errors["usedPokedexNameEdit"] = "Duplicate Pokédex name!";
-        }
+        delete_pokedex($pdo, $pokedexName, $id);
 
-        if ($errors) {
-            $_SESSION["errors_pokedexEdit"] = $errors;
-            $_SESSION["pokedex_data"] = [
-                "pokedexNameEdit" => $pokedexName,
-                "descriptionEdit" => $description,
-                "generationsEdit" => $generationsdata
-            ];
-
-            header("Location: ../user.php?user=" . $_SESSION["user_username"] . "&edited=wentwrong&pokedex=" . htmlspecialchars($_SESSION["actual_pokedex_name"]));
-            die();
-        }
-
-        change_pokedex($pdo, $pokedexName, $description, $generationsdata, $userID);
-
-        header("Location: ../user.php?user=" . $_SESSION["user_username"] . "&edited=success&pokedex=" . htmlspecialchars($pokedexName));
+        header("Location: ../user.php?user=" . $_SESSION["user_username"]);
 
         $pdo = null;
         $stmt = null;

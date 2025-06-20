@@ -32,7 +32,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
             $errors["emptyInputGen"] = "Fill in the generations <br> you want for your pokedex!";
         }
 
-        if (DoesUserHaveAlreadyTsPokedex($pokedexName, $pdo, $userID)) {
+        if (DoesUserHaveAlreadyTsPokedexCreate($pokedexName, $pdo, $userID)) {
             $errors["usedPokedexName"] = "Duplicate Pokédex name!";
         }
 

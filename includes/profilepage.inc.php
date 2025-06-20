@@ -32,9 +32,19 @@ if (isset($_GET["user"]))
         }
         $_SESSION["profileuser_id"] = htmlspecialchars($result["id"]);
         $_SESSION["profileuser_username"] = htmlspecialchars($result["username"]);
+        $_SESSION["profileuser_image"] = htmlspecialchars($result["image"]);
+        $_SESSION["profileuser_role"] = htmlspecialchars($result['role']);
+        
+        $_SESSION["colorRole"] =
+        [
+            "admin" => "border-blue-500",
+            "support" => "border-green-500",
+            "peasent" => "border-red-500"
+        ];
 
         $getPokedexs = getPokedexs($pdo, $_SESSION["profileuser_id"]);
         $_SESSION["pokedexs"] = $getPokedexs;
+        
 
         $pdo = null;
         $stmt = null;

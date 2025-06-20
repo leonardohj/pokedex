@@ -21,9 +21,21 @@ CREATE TABLE `users` (
   `email` varchar(30) NOT NULL,
   `pwd` varchar(255) NOT NULL,
   `dob` varchar(40) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `image` varchar(100) NOT NULL DEFAULT 'img/user-not-login.png',
+  `description` VARCHAR(150) NOT NULL, 
+  `favoritepokemon` VARCHAR(100),
+  `background_image` VARCHAR(100), 
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` DATE
 );
 ```
+## Creating table for background images for favorite user pokemon
+```sql
+CREATE TABLE background_images_pokemons
+(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    background_image VARCHAR(100) NOT NULL
+);
 ## Creating the table "pokedexs"
 Table where the pokedexs are going to be stored
 ```sql
@@ -59,7 +71,5 @@ Username: 123
 Password: 123
 
 ```sql
-INSERT INTO `users` (`username`, `roll`, `email`, `pwd`, `dob`) 
-VALUES
-('123', 'admin', '123@gmail.com', '$2y$12$rLO9nUCPqipum0OkeJyoJuHOqtJiB8RhvzOsyvPr0VQ9NH6XhNO3q', '2012-9-12');
+INSERT INTO `users` (`username`, `role`, `email`, `pwd`, `dob`) VALUES ('123', 'admin', '123@gmail.com', '$2y$12$rLO9nUCPqipum0OkeJyoJuHOqtJiB8RhvzOsyvPr0VQ9NH6XhNO3q', '2012-9-12');
 ```

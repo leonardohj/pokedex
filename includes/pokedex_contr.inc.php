@@ -27,7 +27,19 @@ function fetchAllPokemons($pdo)
     return $allPokemons;
 }
 
-function DoesUserHaveAlreadyTsPokedex($pokedexName, $pdo, $userID)
+function DoesUserHaveAlreadyTsPokedexCreate($pokedexName, $pdo, $userID)
+{
+    if(checkIfUserHavePokedexSameName($pokedexName, $pdo, $userID))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+function DoesUserHaveAlreadyTsPokedexEdit($pokedexName, $pdo, $userID)
 {
     if($pokedexName == $_SESSION["actual_pokedex_name"])
     {
@@ -51,4 +63,8 @@ function create_pokedex($pdo, $pokedexName, $description, $generationsdata, $use
 function change_pokedex($pdo, $pokedexName, $description, $generationsdata, $userID)
 {
     update_pokedex($pdo, $pokedexName, $description, $generationsdata, $userID, true);
+}
+function delete_pokedex($pdo, $pokedexName, $id)
+{
+    remove_pokedex($pdo, $pokedexName, $id);
 }

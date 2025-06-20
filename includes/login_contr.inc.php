@@ -72,3 +72,11 @@ function getAllPokemons($pdo, $g)
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC); 
 }
+
+function getAllPokemonsNOgeneration($pdo)
+{
+    $query = "SELECT * FROM pokemons";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC); 
+}
