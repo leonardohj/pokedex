@@ -3,12 +3,14 @@ function insert_favorite_pokemon()
 {
     $pokemonNames = array_map(fn($p) => htmlspecialchars($p['name']), $_SESSION["ALLpokemons"]);
     $jsonPokemonList = json_encode($pokemonNames);
+    $pokemonLinks = array_map(fn($p) => htmlspecialchars($p['image']), $_SESSION["ALLpokemons"]);
+    $jsonPokemonLinks = json_encode($pokemonLinks);
 ?>
     <button onclick="showModalFavPokemon()" class="mt-4 w-full px-4 py-2 text-sm font-semibold text-gray-700 bg-red-100 border border-red-200 rounded-lg hover:bg-red-200 transition">
         + Add Your Favorite Pokémon!
     </button>
 
-    <div id="modalFavPokemon" class="fixed inset-0 z-[1000] hidden items-center justify-center bg-black/40">
+    <div id="modalFavPokemon" class="fixed flex inset-0 z-[1000] hidden items-center justify-center bg-black/40">
         <div class="bg-white w-full max-w-3xl rounded-2xl shadow-xl p-8 relative">
 
             <button onclick="closeModalFavPokemon()" class="absolute top-5 left-5">
@@ -28,12 +30,7 @@ function insert_favorite_pokemon()
     <form id="favPokemonForm" method="POST" action="save_favorite.php" autocomplete="off" class="w-full max-w-md space-y-6">
         <div class="relative">
             <label for="searchPokemon" class="block text-sm font-semibold text-gray-800 mb-2">Find Your Favorite Pokémon</label>
-            <input 
-                type="text" 
-                id="searchPokemon" 
-                name="pokemon" 
-                placeholder="Start typing a Pokémon name..." 
-                class="w-full px-4 py-3 text-base border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-red-400 transition"
+            <input type="text" id="searchPokemon" name="pokemon" placeholder="Start typing a Pokémon name..." class="w-full px-4 py-3 text-base border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-red-400 transition"
             />
             <ul id="dropdownList"
                 class="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-44 overflow-y-auto text-sm hidden"></ul>
@@ -41,15 +38,12 @@ function insert_favorite_pokemon()
 
         <div>
             <label for="background-image" class="block text-sm font-semibold text-gray-800 mb-2">Choose Background Type</label>
-            <select 
-                name="background-image" 
-                id="background-image" 
-                class="w-full px-4 py-3 text-base border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-red-400 transition"
+            <select name="background-image" id="background-image" class="w-full px-4 py-3 text-base border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-red-400 transition"
             >
                 <?php
                 $types = ["Normal", "Fire", "Fighting", "Water", "Flying", "Grass", "Poison", "Eletric", "Ground", "Psychic", "Rock", "Ice", "Bug", "Dragon", "Ghost", "Dark", "Steel", "Fairy", "Stellar"];
                 foreach ($types as $type) {
-                    echo "<option value=\"$type\">$type</option>";
+                    echo '<option value="'. $type. '">'. $type .' </option>';
                 }
                 ?>
             </select>
@@ -60,8 +54,11 @@ function insert_favorite_pokemon()
 
 
                 <div class="w-full md:w-1/3 flex items-center justify-center border-l border-gray-200 pl-4">
-                    <div id="previewBox" class="bg-red-500 text-white text-center font-bold text-lg uppercase px-18 py-32 rounded-xl shadow">
-                        Preview
+                    <div id="preview-container" class="">
+                        <div class="background-image-container" style="position: relative;">
+                            <img id="background-img-live-preview" class="w-55 h-70" src="img/background-none.jpg" alt="" style="position: relative; z-index: 1;">
+                            <img src="img/no-pokemon.png" class="z-1001" alt="" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none;">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -78,7 +75,6 @@ function insert_favorite_pokemon()
     <script>
         function showModalFavPokemon() {
             document.getElementById("modalFavPokemon").classList.remove("hidden");
-            document.getElementById("modalFavPokemon").classList.add("flex");
         }
 
         function closeModalFavPokemon() {
@@ -86,6 +82,7 @@ function insert_favorite_pokemon()
         }
 
         const pokemonList = <?php echo $jsonPokemonList; ?>;
+        const pokemonLinksList = <?php echo $jsonPokemonLinks; ?>;
         const input = document.getElementById("searchPokemon");
         const dropdown = document.getElementById("dropdownList");
 
@@ -122,8 +119,11 @@ function insert_favorite_pokemon()
             if (!input.contains(e.target) && !dropdown.contains(e.target)) {
                 dropdown.classList.add("hidden");
             }
+            
         });
+
     </script>
+    <script src="includes/pokemonfav.js"></script>
 <?php
 }
 ?>

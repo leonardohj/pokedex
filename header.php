@@ -50,7 +50,7 @@
     </div>
     <div class="absolute top-6 right-12">
         <a href="#" id="profile-btn" onclick="toggleMenu(event)" class="flex items-center justify-center">
-            <img class="h-12 px-[0.58rem] transition-all duration-150 group-hover:border group-hover:border-gray-400 group-hover:rounded-full group-hover:bg-gray-100" src="img\user-not-login.webp" alt="">
+            <img class="h-12 px-[0.58rem] transition-all duration-150 group-hover:border group-hover:border-gray-400 group-hover:rounded-full group-hover:bg-gray-100" src="img\user-not-login.png" alt="">
         </a>
         <div id="subMenu" class="sub-menu flex flex-col text-center absolute left-1/2 top-18 transform -translate-x-1/2 rounded-full border border-gray-300 bg-black bg-cover bg-center w-37 h-37 items-center justify-center"
              style="background-image: url('img/pokebola.png'); display: none;">

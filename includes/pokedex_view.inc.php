@@ -184,7 +184,6 @@ function create_pokedex_input()
                             const form = document.querySelector('form[action="includes/pokedex.inc.php"]');
                             if(form) {
                                 form.addEventListener('submit', function(e) {
-                                    // Always get checkboxes inside the form on submit
                                     const checkboxes = form.querySelectorAll('.generations-required');
                                     let checked = false;
                                     checkboxes.forEach(cb => { if(cb.checked) checked = true; });
@@ -426,55 +425,57 @@ function editModal($pokedex)
 }
 function show_pokedex_content()
 {
-    if (isset($_GET["pokedex"])) 
-    {
-        foreach($_SESSION["pokedexs"] as $pokedex) 
-        {
-            if($_GET["pokedex"] == $pokedex['name'])
-            {
-                $_SESSION["INpokedex"] = $pokedex['name'];
-                echo '<div class="bg-white rounded-xl p-8 mb-6">';
-                
-                echo '<div class="flex items-center mb-2">';
-                echo '<img src="img/pokedexKantoIMG.webp" class="h-8 w-8 mr-2" alt="Dex">';
-                echo '<span class="text-2xl font-bold text-gray-800">'. htmlspecialchars($pokedex['name']) . '</span>';
-                echo $_SESSION['profileuser_username'] == $_SESSION['user_username'] ? editModal($pokedex) : '';
-                echo '</div>';
-                
-                if (!empty($pokedex['description'])) {
-                    echo '<div class="text-gray-600 mb-2">'. htmlspecialchars($pokedex['description']) . '</div>';
-                }
-                
-                echo '<div class="flex flex-row gap-8 text-sm text-gray-500 mb-4">';
-                echo '<div><span class="font-semibold">Game:</span> <span>NOT DONE YET</span></div>';
-                echo '<div><span class="font-semibold">Pokémon caught:</span> <span>NOT DONE YET</span></div>';
-                echo '</div>';
-                echo '<hr class="mb-5">';
-                
-                $gensPokedex = str_split($pokedex['generations']);
-                $allGens = range(1, 9);
-                foreach ($allGens as $g) {
-                    if (in_array((string)$g, $gensPokedex)) {
-                        echo '<div class="mb-6">';
-                        echo '<div class="flex items-center mb-2">';
-                        echo '<span class="text-lg font-semibold text-red-600">Generation '.  $g . '</span>';
-                        echo '<hr class="flex-1 ml-3 border-t-2 border-red-200 w-[100px]">';
-                        echo '</div>';
-                        echo '<div class="flex flex-row flex-wrap gap-4 justify-start">';
-                        show_pokemons_by_generation($g);
-                        echo '</div>';
-                        echo '</div>';
-                    } 
-                }
-                echo '</div>';
-                unsetdata($pokedex['name']);
+if (isset($_GET["pokedex"])) {
+    foreach ($_SESSION["pokedexs"] as $pokedex) {
+        if ($_GET["pokedex"] === $pokedex['name']) {
+            $_SESSION["INpokedex"] = $pokedex['name'];
+
+            echo '<div class="bg-white rounded-2xl shadow-md p-8 mb-8 space-y-6">';
+
+            // Header
+            echo '<div class="flex items-center justify-between">';
+            echo '<div class="flex items-center gap-3">';
+            echo '<img src="img/pokedexKantoIMG.webp" class="h-10 w-10" alt="Pokedex Icon">';
+            echo '<h2 class="text-3xl font-bold text-gray-800">'. htmlspecialchars($pokedex['name']) . '</h2>';
+            echo '</div>';
+            echo $_SESSION['profileuser_username'] === $_SESSION['user_username'] ? editModal($pokedex) : '';
+            echo '</div>';
+
+            // Description
+            if (!empty($pokedex['description'])) {
+                echo '<p class="text-gray-600 text-sm leading-relaxed border-l-4 border-red-200 pl-4 italic">'. htmlspecialchars($pokedex['description']) . '</p>';
             }
+
+            // Info tags
+            echo '<div class="flex flex-wrap gap-6 text-sm text-gray-500 border-t pt-4">';
+            echo '<div><span class="font-semibold text-gray-700">Game:</span> <span class="italic text-gray-400">Coming soon</span></div>';
+            echo '<div><span class="font-semibold text-gray-700">Pokémon caught:</span> <span class="italic text-gray-400">Coming soon</span></div>';
+            echo '</div>';
+
+            // Generations section
+            $gensPokedex = str_split($pokedex['generations']);
+            foreach (range(1, 9) as $g) {
+                if (in_array((string)$g, $gensPokedex)) {
+                    echo '<div class="space-y-3 pt-4">';
+                    echo '<div class="flex items-center gap-3">';
+                    echo '<h3 class="text-xl font-semibold text-red-600">Generation ' . $g . '</h3>';
+                    echo '<div class="flex-1 h-px bg-red-200"></div>';
+                    echo '</div>';
+
+                    echo '<div class="flex flex-wrap gap-4">';
+                    show_pokemons_by_generation($g);
+                    echo '</div>';
+                    echo '</div>';
+                }
+            }
+
+            echo '</div>'; // End of main card
+            unsetdata($pokedex['name']);
         }
     }
-    else
-    {
-        $_SESSION["INpokedex"] = '';
-    }
+} else {
+    $_SESSION["INpokedex"] = '';
+}
 }
 
 function show_pokemons_by_generation($g)
